@@ -1,0 +1,66 @@
+PROCEDURE SumDistinctElements(set1, set2)
+    VAR sum : INTEGER := 0;
+    VAR found : BOOLEAN;
+    
+    // Add elements from Set 1 that are NOT in Set 2
+    FOR i FROM 0 TO Length(set1) - 1 DO
+        found := FALSE;
+        FOR j FROM 0 TO Length(set2) - 1 DO
+            IF set1[i] = set2[j] THEN
+                found := TRUE;
+                BREAK;
+            END_IF
+        END_FOR
+        IF NOT found THEN
+            sum := sum + set1[i];
+        END_IF
+    END_FOR
+
+    // Add elements from Set 2 that are NOT in Set 1
+    FOR i FROM 0 TO Length(set2) - 1 DO
+        found := FALSE;
+        FOR j FROM 0 TO Length(set1) - 1 DO
+            IF set2[i] = set1[j] THEN
+                found := TRUE;
+                BREAK;
+            END_IF
+        END_FOR
+        IF NOT found THEN
+            sum := sum + set2[i];
+        END_IF
+    END_FOR
+    
+    RETURN sum;
+END_PROCEDURE
+
+// Example usage
+VAR set1 := [3, 1, 7, 9];
+VAR set2 := [2, 4, 1, 9, 3];
+
+WRITE(SumDistinctElements(set1, set2));  // Output: 13
+
+
+FUNCTION dot_product(v1, v2)
+    VAR ps : INTEGER := 0;
+    VAR i : INTEGER;
+    FOR i FROM 0 TO Length(v1) - 1 DO
+        ps := ps + (v1[i] * v2[i]);
+    END_FOR
+    RETURN ps;
+END_FUNCTION
+
+PROCEDURE check_orthogonality(vectors1, vectors2, n)
+    VAR i : INTEGER;
+    FOR i FROM 0 TO n - 1 DO
+        IF dot_product(vectors1[i], vectors2[i]) = 0 THEN
+            WRITE("Vectors ", i, " are orthogonal.");
+        ELSE
+            WRITE("Vectors ", i, " are NOT orthogonal.");
+        END_IF
+    END_FOR
+END_PROCEDURE
+
+// Example usage
+VAR v1 := [[1, 2], [3, 4]];
+VAR v2 := [[-2, 1], [-1, -2]];
+check_orthogonality(v1, v2, 2);
